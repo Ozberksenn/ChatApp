@@ -1,11 +1,14 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
-
+import styles from "./Contacts.style";
 const Contacts = () => {
   return (
-    <View>
-      <Text>Contacts</Text>
-    </View>
+    <SafeAreaView style={styles.Container}>
+      <View>
+        <Text style={styles.headerText}>Contacts</Text>
+      </View>
+      <View style={styles.content}></View>
+    </SafeAreaView>
   );
 };
 

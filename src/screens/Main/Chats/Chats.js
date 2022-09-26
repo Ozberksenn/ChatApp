@@ -1,10 +1,13 @@
 import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
-
+import styles from "./Chats.style";
 const Chats = () => {
   return (
-    <SafeAreaView>
-      <Text>Chats</Text>
+    <SafeAreaView style={styles.Container}>
+      <View>
+        <Text style={styles.headerText}>Chats</Text>
+      </View>
+      <View style={styles.content}></View>
     </SafeAreaView>
   );
 };
