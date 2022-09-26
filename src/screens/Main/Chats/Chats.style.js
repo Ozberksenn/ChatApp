@@ -20,4 +20,7 @@ export default StyleSheet.create({
     borderTopRightRadius: 50,
     backgroundColor: "#6D5F9A",
   },
+  cardContainer: {
+    marginTop: 30,
+  },
 });
