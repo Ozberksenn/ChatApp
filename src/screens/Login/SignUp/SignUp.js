@@ -17,13 +17,26 @@ const SignUp = () => {
           <Text style={styles.AccountText}>Create a Account</Text>
         </View>
         <View style={{ marginTop: 20 }}>
-          <Input inputName="Username" placeholder="please enter username" />
-          <View style={styles.line}></View>
-          <Input inputName="Email" placeholder="please enter email" />
-          <View style={styles.line}></View>
-          <Input inputName="Password" placeholder="please enter password" />
+          <Input
+            iconName="user"
+            inputName="Username"
+            placeholder="please enter username"
+          />
           <View style={styles.line}></View>
           <Input
+            iconName="mail"
+            inputName="Email"
+            placeholder="please enter email"
+          />
+          <View style={styles.line}></View>
+          <Input
+            iconName="key"
+            inputName="Password"
+            placeholder="please enter password"
+          />
+          <View style={styles.line}></View>
+          <Input
+            iconName="key"
             inputName="Password Again"
             placeholder="please enter password again"
           />

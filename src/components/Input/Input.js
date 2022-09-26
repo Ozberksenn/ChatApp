@@ -2,7 +2,7 @@ import { View, Text, TextInput } from "react-native";
 import React from "react";
 import { Feather } from "@expo/vector-icons";
 import styles from "./Input.style";
-const Input = ({ inputName, placeholder, onChangeText, value }) => {
+const Input = ({ inputName, placeholder, onChangeText, value, iconName }) => {
   return (
     <View>
       <Text style={styles.inputName}>{inputName}</Text>
@@ -12,7 +12,7 @@ const Input = ({ inputName, placeholder, onChangeText, value }) => {
           placeholder={placeholder}
           onChangeText={onChangeText}
         />
-        <Feather style={styles.inputIcon} name="mail" />
+        <Feather style={styles.inputIcon} name={iconName} />
       </View>
     </View>
   );
