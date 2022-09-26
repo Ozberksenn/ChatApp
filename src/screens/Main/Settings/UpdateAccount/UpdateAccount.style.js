@@ -1,54 +1,52 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 export default StyleSheet.create({
-  Container: {
+  container: {
     flex: 1,
     backgroundColor: "#4d426d",
     justifyContent: "space-between",
   },
+  headerContainer: {
+    top: 10,
+    flexDirection: "row",
+    marginBottom: 60,
+  },
+  backIcon: {
+    left: 10,
+    color: "white",
+    fontSize: 30,
+  },
   headerText: {
-    top: 5,
     left: 30,
     color: "#fff",
     fontSize: 26,
     fontWeight: "bold",
   },
   content: {
+    justifyContent: "space-evenly",
     width: Dimensions.get("screen").width,
-    height: Dimensions.get("screen").height / 1.25,
+    height: Dimensions.get("screen").height / 1.15,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     backgroundColor: "#6D5F9A",
-    justifyContent: "space-evenly",
   },
-  profilInfo: {
+  imageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
     alignItems: "center",
   },
-  profilPhoto: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+  profilImage: {
+    width: 125,
+    height: 125,
+    borderRadius: 100,
     borderWidth: 2,
     borderColor: "#4D426D",
-  },
-  userName: {
-    fontSize: 24,
-    color: "#fff",
-  },
-  state: {
-    color: "#fff",
+    opacity: 0.6,
   },
   icon: {
+    position: "absolute",
     fontSize: 30,
-    color: "#EFA985",
-  },
-  textContainer: {
-    marginLeft: 30,
-  },
-  text: {
-    fontSize: 24,
-    color: "#fff",
-    marginLeft: 10,
+    color: "#4d426D",
   },
   line: {
     marginVertical: 10,

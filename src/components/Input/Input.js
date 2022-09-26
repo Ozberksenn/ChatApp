@@ -2,7 +2,15 @@ import { View, Text, TextInput } from "react-native";
 import React from "react";
 import { Feather } from "@expo/vector-icons";
 import styles from "./Input.style";
-const Input = ({ inputName, placeholder, onChangeText, value, iconName }) => {
+const Input = ({
+  inputName,
+  placeholder,
+  defaultValue,
+  onChangeText,
+  value,
+  iconName,
+  securityPassword,
+}) => {
   return (
     <View>
       <Text style={styles.inputName}>{inputName}</Text>
@@ -11,6 +19,8 @@ const Input = ({ inputName, placeholder, onChangeText, value, iconName }) => {
           value={value}
           placeholder={placeholder}
           onChangeText={onChangeText}
+          defaultValue={defaultValue}
+          secureTextEntry={securityPassword}
         />
         <Feather style={styles.inputIcon} name={iconName} />
       </View>

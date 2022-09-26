@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./Chats.style";
 const Chats = () => {
   return (
-    <SafeAreaView style={styles.Container}>
+    <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.headerText}>Chats</Text>
       </View>
