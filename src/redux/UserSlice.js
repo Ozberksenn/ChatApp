@@ -6,12 +6,12 @@ export const UserSlice = createSlice({
     userInfo: {},
   },
   reducers: {
-    signUp: (state, action) => {
+    signIn: (state, action) => {
       state.user = action.payload;
     },
   },
 });
 
-export const { signUp } = UserSlice.actions;
+export const { signIn } = UserSlice.actions;
 
 export default UserSlice.reducer;
