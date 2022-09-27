@@ -4,11 +4,13 @@ import styles from "./CustomTabBar.style";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 const CustomTabBar = () => {
   const [focused, setFocused] = useState(1);
   const navigation = useNavigation();
+  const { activeTheme } = useSelector((state) => state.theme);
   return (
-    <View style={{ backgroundColor: "#6D5F9A" }}>
+    <View style={{ backgroundColor: activeTheme.bgColor }}>
       <View style={styles.container}>
         <TouchableOpacity
           onPress={() => navigation.navigate("Chats") & setFocused(1)}
