@@ -3,32 +3,26 @@ import { StyleSheet, Dimensions } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#4d426d",
     justifyContent: "space-between",
   },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginBottom: 50,
+  content: {
+    backgroundColor: "#6d5f9a",
+    flex: 0.95,
+    borderRadius: 50,
   },
-  inputContainer: {
-    borderWidth: 1,
-    borderColor: "#4D426D",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 30,
+  messageContainer: {
+    top: 30,
+    marginVertical: 5,
+    marginLeft: 20,
+    padding: 15,
+    backgroundColor: "#4d426d",
+    borderRadius: 20,
+    marginRight: "auto",
   },
   inputText: {
-    left: 5,
-    width: 300,
-    paddingVertical: 15,
-  },
-  sendButton: {
-    borderWidth: 1,
-    borderColor: "#4D426D",
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    backgroundColor: "#fff",
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "400",
   },
 });
