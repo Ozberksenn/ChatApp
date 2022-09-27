@@ -11,9 +11,11 @@ import Input from "../../../../components/Input/Input";
 import Button from "../../../../components/Button/Button";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 const UpdateAccount = () => {
   //profil bilgileri bu sayfadan güncellenecek.
   const navigation = useNavigation();
+  const { userInfo } = useSelector((state) => state.user);
 
   const handleUpdate = async () => {};
   return (

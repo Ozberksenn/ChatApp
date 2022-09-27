@@ -5,11 +5,12 @@ import Input from "../../../components/Input/Input";
 import Button from "../../../components/Button/Button";
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../../config";
+import { auth, firestore } from "../../../../config";
 import { useDispatch } from "react-redux";
 import { signIn } from "../../../redux/UserSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
+import { doc, getDoc } from "firebase/firestore";
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -18,30 +19,20 @@ const SignIn = () => {
   const [password, setPassword] = useState();
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, mail, password)
-      .then(
-        async (res) =>
-          await AsyncStorage.setItem(
-            "user",
-            JSON.stringify({
-              mail: mail,
-              password: password,
-              id: res.user.uid,
-            })
-          ).then(() => {
-            dispatch(
-              signIn({
-                mail: mail,
-                password: password,
-                id: res.user.uid,
-              })
-            );
+      .then(async (res) => {
+        const userDoc = doc(firestore, "users", res.user.uid);
+        const userRef = await getDoc(userDoc);
+        AsyncStorage.setItem("user", JSON.stringify(userRef.data())).then(
+          () => {
+            dispatch(signIn(userRef.data()));
             Toast.show({
               type: "success",
               text1: "Hello",
-              text2: "you have successfully logged in 👋",
+              text2: "you have successed logged in👋",
             });
-          })
-      )
+          }
+        );
+      })
       .catch((err) => console.log(err));
   };
   return (

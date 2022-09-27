@@ -6,7 +6,7 @@ import Input from "../../../components/Input/Input";
 import Button from "../../../components/Button/Button";
 import { useNavigation } from "@react-navigation/native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { auth, firestore } from "../.././../../config";
 const SignUp = () => {
   const navigation = useNavigation();
@@ -19,11 +19,11 @@ const SignUp = () => {
     createUserWithEmailAndPassword(auth, mail, password)
       .then(async (res) => {
         // bir collection oluşturduk ve inputtan aldığımız değerleri firestore ya kaydettik.
-        await addDoc(collection(firestore, "users"), {
+        await setDoc(doc(firestore, "users", res.user.uid), {
           mail: mail,
           password: password,
           userName: userName,
-          id: res.user.uid,
+          uid: res.user.uid,
           profilPhoto:
             "https://firebasestorage.googleapis.com/v0/b/chat-11105.appspot.com/o/user-01.png?alt=media&token=bfcb9a5c-ce0b-43d5-a96a-d06d8efe168e",
           // default olarak bir profil fotoğrafı ekliyorum. Kullanıcı daha sonra  ayarlardan onu değiştirebilir.
