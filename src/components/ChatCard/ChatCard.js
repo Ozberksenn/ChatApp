@@ -1,9 +1,15 @@
 import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import styles from "./ChatCard.style";
+import { useNavigation } from "@react-navigation/native";
 const ChatCard = () => {
+  const navigation = useNavigation();
+  // mesajlaştığımız kişileri listeleteceğimiz kart yapısı.
   return (
-    <Pressable style={styles.container}>
+    <Pressable
+      onPress={() => navigation.navigate("ChatDetail")}
+      style={styles.container}
+    >
       <View style={styles.content}>
         <View>
           <Image

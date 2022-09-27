@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./Contacts.style";
 const Contacts = () => {
   return (
-    <SafeAreaView style={styles.Container}>
+    <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.headerText}>Contacts</Text>
       </View>

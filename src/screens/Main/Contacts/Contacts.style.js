@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 export default StyleSheet.create({
-  Container: {
+  container: {
     flex: 1,
     backgroundColor: "#4d426d",
     justifyContent: "space-between",
