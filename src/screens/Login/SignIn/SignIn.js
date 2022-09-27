@@ -18,6 +18,7 @@ const SignIn = () => {
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
   const handleSignIn = () => {
+    // firebase üzerinden tüm data çekiliyor. Çekilen data async storage ve redux store a  yazıldı.
     signInWithEmailAndPassword(auth, mail, password)
       .then(async (res) => {
         const userDoc = doc(firestore, "users", res.user.uid);
