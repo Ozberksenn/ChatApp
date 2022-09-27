@@ -19,25 +19,28 @@ const SignIn = () => {
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, mail, password)
       .then(
-        async () =>
+        async (res) =>
           await AsyncStorage.setItem(
             "user",
             JSON.stringify({
               mail: mail,
               password: password,
+              id: res.user.uid,
             })
-          ),
-        dispatch(
-          signIn({
-            mail: mail,
-            password: password,
+          ).then(() => {
+            dispatch(
+              signIn({
+                mail: mail,
+                password: password,
+                id: res.user.uid,
+              })
+            );
+            Toast.show({
+              type: "success",
+              text1: "Hello",
+              text2: "you have successfully logged in 👋",
+            });
           })
-        ),
-        Toast.show({
-          type: "success",
-          text1: "Hello",
-          text2: "This is some something 👋",
-        })
       )
       .catch((err) => console.log(err));
   };

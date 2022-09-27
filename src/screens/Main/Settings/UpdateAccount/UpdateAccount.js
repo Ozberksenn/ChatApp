@@ -14,6 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 const UpdateAccount = () => {
   //profil bilgileri bu sayfadan güncellenecek.
   const navigation = useNavigation();
+
+  const handleUpdate = async () => {};
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -38,7 +40,7 @@ const UpdateAccount = () => {
           <Input iconName="mail" inputName="Email" />
           <View style={styles.line}></View>
           <Input securityPassword iconName="key" inputName="Password" />
-          <Button btnName="Update Profile" />
+          <Button onPress={handleUpdate} btnName="Update Profile" />
         </View>
       </View>
     </SafeAreaView>

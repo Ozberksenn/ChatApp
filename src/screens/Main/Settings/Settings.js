@@ -11,6 +11,8 @@ import { FontAwesome5, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../../../redux/ThemeSlice";
+import { updateUser } from "../../../redux/UserSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Settings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -19,6 +21,10 @@ const Settings = () => {
   const handleTheme = () => {
     // tema değiştirilecek.
     dispatch(toggleTheme());
+  };
+  const handleLogOut = async () => {
+    dispatch(updateUser({}));
+    await AsyncStorage.removeItem("user");
   };
   return (
     <SafeAreaView style={styles.Container}>
@@ -60,6 +66,7 @@ const Settings = () => {
           </TouchableOpacity>
           <View style={styles.line}></View>
           <TouchableOpacity
+            onPress={handleLogOut}
             style={{ flexDirection: "row", marginVertical: 20 }}
           >
             <Feather name="power" style={styles.icon} />

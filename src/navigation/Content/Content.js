@@ -5,7 +5,7 @@ import TabBar from "../TabBar/TabBar";
 import UpdateAccount from "../../screens/Main/Settings/UpdateAccount/UpdateAccount";
 import ChatDetail from "../../screens/Main/Chats/ChatDetail/ChatDetail";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 
