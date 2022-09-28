@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, firestore } from "../.././../../config";
+import Toast from "react-native-toast-message";
 const SignUp = () => {
   const navigation = useNavigation();
   const [userName, setUserName] = useState(null);
@@ -16,22 +17,43 @@ const SignUp = () => {
   const [passwordAgain, setPasswordAgain] = useState(null);
 
   const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, mail, password)
-      .then(async (res) => {
-        // bir collection oluşturduk ve inputtan aldığımız değerleri firestore ya kaydettik.
-        await setDoc(doc(firestore, "users", res.user.uid), {
-          mail: mail,
-          password: password,
-          userName: userName,
-          uid: res.user.uid,
-          bio: "Hey There I'm Using ChatApp",
-          profilPhoto:
-            "https://firebasestorage.googleapis.com/v0/b/chat-11105.appspot.com/o/user.png?alt=media&token=93f8ebfa-89ce-4975-95c5-4cad65655d97",
-          // default olarak bir profil fotoğrafı ekliyorum. Kullanıcı daha sonra  ayarlardan onu değiştirebilir.
+    if (userName && mail && password && passwordAgain) {
+      if (password === passwordAgain) {
+        createUserWithEmailAndPassword(auth, mail, password)
+          .then(async (res) => {
+            // bir collection oluşturduk ve inputtan aldığımız değerleri firestore ya kaydettik.
+            await setDoc(doc(firestore, "users", res.user.uid), {
+              mail: mail,
+              password: password,
+              userName: userName,
+              uid: res.user.uid,
+              bio: "Hey There I'm Using ChatApp",
+              profilPhoto:
+                "https://firebasestorage.googleapis.com/v0/b/chat-11105.appspot.com/o/user.png?alt=media&token=93f8ebfa-89ce-4975-95c5-4cad65655d97",
+              // default olarak bir profil fotoğrafı ekliyorum. Kullanıcı daha sonra  ayarlardan onu değiştirebilir.
+            });
+            navigation.navigate("SignIn");
+            Toast.show({
+              type: "successed",
+              text1: "Congratulations",
+              text2: "User Created👋",
+            });
+          })
+          .catch((err) => console.log(err));
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Wrong",
+          text2: "Information does not match👋",
         });
-        navigation.navigate("SignIn");
-      })
-      .catch((err) => console.log(err));
+      }
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Wrong",
+        text2: "Mail and Password cannot be left blank👋",
+      });
+    }
   };
   return (
     <SafeAreaView style={styles.signUpContainer}>

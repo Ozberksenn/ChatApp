@@ -19,22 +19,30 @@ const SignIn = () => {
   const [password, setPassword] = useState();
   const handleSignIn = () => {
     // firebase üzerinden tüm data çekiliyor. Çekilen data async storage ve redux store a  yazıldı.
-    signInWithEmailAndPassword(auth, mail, password)
-      .then(async (res) => {
-        const userDoc = doc(firestore, "users", res.user.uid);
-        const userRef = await getDoc(userDoc);
-        AsyncStorage.setItem("user", JSON.stringify(userRef.data())).then(
-          () => {
-            dispatch(signIn(userRef.data()));
-            Toast.show({
-              type: "success",
-              text1: "Hello",
-              text2: "you have successed logged in👋",
-            });
-          }
-        );
-      })
-      .catch((err) => console.log(err));
+    if (mail && password) {
+      signInWithEmailAndPassword(auth, mail, password)
+        .then(async (res) => {
+          const userDoc = doc(firestore, "users", res.user.uid);
+          const userRef = await getDoc(userDoc);
+          AsyncStorage.setItem("user", JSON.stringify(userRef.data())).then(
+            () => {
+              dispatch(signIn(userRef.data()));
+              Toast.show({
+                type: "success",
+                text1: "Hello",
+                text2: "you have successed logged in👋",
+              });
+            }
+          );
+        })
+        .catch((err) => console.log(err));
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Wrong",
+        text2: "Mail and Password cannot be left blank👋",
+      });
+    }
   };
   return (
     <SafeAreaView style={styles.signInContainer}>

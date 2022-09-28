@@ -2,18 +2,25 @@ import { View, Text, SafeAreaView, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./Contacts.style";
 import ChatCard from "../../../components/ChatCard/ChatCard";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, where, query } from "firebase/firestore";
 import { firestore } from "../../../../config";
+import { useSelector } from "react-redux";
 const Contacts = () => {
   const [data, setData] = useState(null);
+  const { userInfo } = useSelector((state) => state.user);
   useEffect(() => {
     getCollection();
   }, []);
 
   const getCollection = async () => {
     //user collectionda ki userları listeletiyoruz. Daha sonra flat list kullanarak chats sayfamızda gösteriyoruz.
-    const users = collection(firestore, "users");
-    await getDocs(users).then((e) => {
+    const q = query(
+      collection(firestore, "users"),
+      where("uid", "!=", userInfo.uid)
+    );
+    // where sorgusu yaparak giriş yapılan kullanıcı listelendirilmez.
+
+    await getDocs(q).then((e) => {
       setData(e.docs.map((item) => item.data()));
     });
   };

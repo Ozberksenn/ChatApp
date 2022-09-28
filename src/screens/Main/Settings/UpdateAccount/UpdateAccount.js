@@ -17,6 +17,7 @@ import { updateEmail, updatePassword } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { updateUser } from "../../../../redux/UserSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 const UpdateAccount = () => {
   //profil bilgileri bu sayfadan güncellenecek.
   const navigation = useNavigation();
@@ -28,18 +29,32 @@ const UpdateAccount = () => {
 
   const handleUpdate = async () => {
     //userName , mail ve password bilgilerini her yerden güncelledim.
-    updateEmail(auth.currentUser, mail).then(async () => {
-      updatePassword(auth.currentUser, password).then(async () => {
-        const update = doc(firestore, "users", userInfo?.uid);
-        await updateDoc(update, {
-          userName: userName,
-          mail: mail,
-          password: password,
+    if (userName && mail && password) {
+      updateEmail(auth.currentUser, mail).then(async () => {
+        updatePassword(auth.currentUser, password).then(async () => {
+          const update = doc(firestore, "users", userInfo?.uid);
+          await updateDoc(update, {
+            userName: userName,
+            mail: mail,
+            password: password,
+          });
         });
+        await AsyncStorage.removeItem("user").then(() => {
+          Toast.show({
+            type: "success",
+            text1: "Updated",
+            text2: "Your information has been updated👋",
+          });
+        });
+        dispatch(updateUser({}));
       });
-      await AsyncStorage.removeItem("user");
-      dispatch(updateUser({}));
-    });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Wrong",
+        text2: "Please check👋",
+      });
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
