@@ -33,11 +33,6 @@ const SignUp = () => {
               // default olarak bir profil fotoğrafı ekliyorum. Kullanıcı daha sonra  ayarlardan onu değiştirebilir.
             });
             navigation.navigate("SignIn");
-            Toast.show({
-              type: "successed",
-              text1: "Congratulations",
-              text2: "User Created👋",
-            });
           })
           .catch((err) => console.log(err));
       } else {

@@ -21,6 +21,13 @@ export default StyleSheet.create({
     backgroundColor: "#6D5F9A",
   },
   cardContainer: {
-    marginTop: 30,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 40,
+  },
+  line: {
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: "#efa985",
   },
 });

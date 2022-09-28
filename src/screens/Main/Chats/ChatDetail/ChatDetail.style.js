@@ -12,17 +12,12 @@ export default StyleSheet.create({
     borderRadius: 50,
   },
   messageContainer: {
-    top: 30,
+    marginTop: 10,
     marginVertical: 5,
     marginLeft: 20,
     padding: 15,
     backgroundColor: "#4d426d",
     borderRadius: 20,
     marginRight: "auto",
-  },
-  inputText: {
-    fontSize: 16,
-    color: "#fff",
-    fontWeight: "400",
   },
 });

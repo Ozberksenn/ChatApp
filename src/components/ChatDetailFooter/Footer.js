@@ -1,14 +1,36 @@
-import { View, TextInput } from "react-native";
-import React from "react";
+import { View, TextInput, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 import styles from "./Footer.style";
 import { FontAwesome } from "@expo/vector-icons";
-const Footer = () => {
+import { firestore } from "../../../config";
+import { doc, setDoc } from "firebase/firestore";
+import { useSelector } from "react-redux";
+import uuid from "react-native-uuid";
+const Footer = ({ uid }) => {
+  const { userInfo } = useSelector((state) => state.user);
+  const [message, setMessage] = useState();
+
+  const handleSend = async () => {
+    const date = Date.now();
+    await setDoc(doc(firestore, "messages", uuid.v4()), {
+      id: uuid.v4(),
+      content: message,
+      receiver_id: uid,
+      sender_id: userInfo?.uid,
+      date: date,
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <TextInput style={styles.input} placeholder="Type a message" />
-      <View style={styles.sendButton}>
+      <TextInput
+        onChangeText={(value) => setMessage(value)}
+        style={styles.input}
+        placeholder="Type a message"
+      />
+      <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
         <FontAwesome name="send-o" size={24} color="black" />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

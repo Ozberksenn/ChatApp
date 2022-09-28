@@ -9,6 +9,7 @@ const ChatCard = ({ data }) => {
     <Pressable
       onPress={() =>
         navigation.navigate("ChatDetail", {
+          uid: data.item.uid,
           userName: data.item.userName,
           profilPhoto: data.item.profilPhoto,
         })
