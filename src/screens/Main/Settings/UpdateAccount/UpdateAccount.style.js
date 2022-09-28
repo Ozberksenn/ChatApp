@@ -41,7 +41,7 @@ export default StyleSheet.create({
     borderRadius: 100,
     borderWidth: 2,
     borderColor: "#4D426D",
-    opacity: 0.6,
+    opacity: 0.5,
   },
   icon: {
     position: "absolute",

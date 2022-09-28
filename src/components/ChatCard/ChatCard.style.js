@@ -9,6 +9,8 @@ export default StyleSheet.create({
     justifyContent: "space-between",
   },
   chatProfileImage: {
+    borderWidth: 1,
+    borderColor: "#fff",
     width: 60,
     height: 60,
     borderRadius: 50,

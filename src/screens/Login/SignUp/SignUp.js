@@ -25,7 +25,7 @@ const SignUp = () => {
           userName: userName,
           uid: res.user.uid,
           profilPhoto:
-            "https://firebasestorage.googleapis.com/v0/b/chat-11105.appspot.com/o/user-01.png?alt=media&token=bfcb9a5c-ce0b-43d5-a96a-d06d8efe168e",
+            "https://firebasestorage.googleapis.com/v0/b/chat-11105.appspot.com/o/user.png?alt=media&token=93f8ebfa-89ce-4975-95c5-4cad65655d97",
           // default olarak bir profil fotoğrafı ekliyorum. Kullanıcı daha sonra  ayarlardan onu değiştirebilir.
         });
         navigation.navigate("SignIn");

@@ -2,9 +2,11 @@ import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import styles from "./ChatCard.style";
 import { useNavigation } from "@react-navigation/native";
-const ChatCard = () => {
-  const navigation = useNavigation();
+import { useSelector } from "react-redux";
+const ChatCard = ({ data }) => {
   // mesajlaştığımız kişileri listeleteceğimiz kart yapısı.
+  const navigation = useNavigation();
+  const { userInfo } = useSelector((state) => state.user);
   return (
     <Pressable
       onPress={() => navigation.navigate("ChatDetail")}
@@ -14,11 +16,11 @@ const ChatCard = () => {
         <View>
           <Image
             style={styles.chatProfileImage}
-            source={{ uri: "https://n-cdn.serienjunkies.de/43/101431.jpg" }}
+            source={{ uri: data.item.profilPhoto }}
           />
         </View>
         <View style={styles.nameAndMessage}>
-          <Text style={styles.name}>Dwight Schurte</Text>
+          <Text style={styles.name}>{data.item.userName}</Text>
           <Text numberOfLines={1} style={styles.message}>
             That's what she said
           </Text>

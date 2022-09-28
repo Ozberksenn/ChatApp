@@ -17,12 +17,14 @@ const Settings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { activeTheme } = useSelector((state) => state.theme);
+  const { userInfo } = useSelector((state) => state.user);
 
   const handleTheme = () => {
-    // tema değiştirilecek.
+    // tema değiştiriliyor.
     dispatch(toggleTheme());
   };
   const handleLogOut = async () => {
+    // async storage ve redux store üzerinde ki bilgiler sıfırlandı.
     dispatch(updateUser({}));
     await AsyncStorage.removeItem("user");
   };
@@ -35,10 +37,10 @@ const Settings = () => {
         <View style={styles.profilInfo}>
           <Image
             style={styles.profilPhoto}
-            source={{ uri: "https://n-cdn.serienjunkies.de/43/101431.jpg" }}
+            source={{ uri: userInfo?.profilPhoto }}
           />
           <Text style={[styles.userName, { color: activeTheme.textColor }]}>
-            User Name
+            {userInfo?.userName}
           </Text>
           <Text style={[styles.state, { color: activeTheme.textColor }]}>
             Online

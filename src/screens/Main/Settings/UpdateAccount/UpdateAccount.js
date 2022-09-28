@@ -55,7 +55,7 @@ const UpdateAccount = () => {
         <TouchableOpacity style={styles.imageContainer}>
           <Image
             style={styles.profilImage}
-            source={{ uri: "https://n-cdn.serienjunkies.de/43/101431.jpg" }}
+            source={{ uri: userInfo?.profilPhoto }}
           />
           <FontAwesome5 name="camera" style={styles.icon} />
         </TouchableOpacity>
