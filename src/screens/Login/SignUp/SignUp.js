@@ -24,6 +24,7 @@ const SignUp = () => {
           password: password,
           userName: userName,
           uid: res.user.uid,
+          bio: "Hey There I'm Using ChatApp",
           profilPhoto:
             "https://firebasestorage.googleapis.com/v0/b/chat-11105.appspot.com/o/user.png?alt=media&token=93f8ebfa-89ce-4975-95c5-4cad65655d97",
           // default olarak bir profil fotoğrafı ekliyorum. Kullanıcı daha sonra  ayarlardan onu değiştirebilir.

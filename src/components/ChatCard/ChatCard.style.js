@@ -45,7 +45,7 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
   },
-  message: {
+  text: {
     fontWeight: "100",
     fontSize: 16,
     color: "#fff",

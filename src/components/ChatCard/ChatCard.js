@@ -2,14 +2,17 @@ import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import styles from "./ChatCard.style";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
 const ChatCard = ({ data }) => {
-  // mesajlaştığımız kişileri listeleteceğimiz kart yapısı.
+  // kişileri listeleteceğimiz kart yapısı.
   const navigation = useNavigation();
-  const { userInfo } = useSelector((state) => state.user);
   return (
     <Pressable
-      onPress={() => navigation.navigate("ChatDetail")}
+      onPress={() =>
+        navigation.navigate("ChatDetail", {
+          userName: data.item.userName,
+          profilPhoto: data.item.profilPhoto,
+        })
+      }
       style={styles.container}
     >
       <View style={styles.content}>
@@ -21,8 +24,8 @@ const ChatCard = ({ data }) => {
         </View>
         <View style={styles.nameAndMessage}>
           <Text style={styles.name}>{data.item.userName}</Text>
-          <Text numberOfLines={1} style={styles.message}>
-            That's what she said
+          <Text numberOfLines={1} style={styles.text}>
+            Hey There I'm Using ChatApp
           </Text>
         </View>
       </View>
