@@ -15,8 +15,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { auth, firestore } from "../../../../../config";
 import { updateEmail, updatePassword } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
+import UploadImageAsync from "../../../../hooks/UploadImageAsync";
 import { updateUser } from "../../../../redux/UserSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 const UpdateAccount = () => {
   //profil bilgileri bu sayfadan güncellenecek.
@@ -26,7 +28,22 @@ const UpdateAccount = () => {
   const [userName, setUserName] = useState();
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
+  const [image, setImage] = useState();
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      // kütüphaneden aldığımız photo url i base64 e çeviriyoruz. upload butonuna tıklandıktan sonra değiştiriyoruz.
+      const base64 = await UploadImageAsync(result.uri);
+      setImage(base64);
+      updateDoc(editImage);
+    }
+  };
   const handleUpdate = async () => {
     //userName , mail ve password bilgilerini her yerden güncelledim.
     if (userName && mail && password) {
@@ -37,6 +54,7 @@ const UpdateAccount = () => {
             userName: userName,
             mail: mail,
             password: password,
+            profilPhoto: editImage,
           });
         });
         await AsyncStorage.removeItem("user").then(() => {
@@ -67,7 +85,7 @@ const UpdateAccount = () => {
         <Text style={styles.headerText}>Account Settings</Text>
       </View>
       <View style={styles.content}>
-        <TouchableOpacity style={styles.imageContainer}>
+        <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
           <Image
             style={styles.profilImage}
             source={{ uri: userInfo?.profilPhoto }}
