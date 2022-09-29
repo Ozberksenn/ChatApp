@@ -19,11 +19,13 @@ const Footer = ({ uid }) => {
       sender_id: userInfo?.uid,
       date: date,
     });
+    setMessage("");
   };
 
   return (
     <View style={styles.container}>
       <TextInput
+        value={message}
         onChangeText={(value) => setMessage(value)}
         style={styles.input}
         placeholder="Type a message"

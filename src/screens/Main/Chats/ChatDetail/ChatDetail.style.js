@@ -11,7 +11,7 @@ export default StyleSheet.create({
     flex: 0.95,
     borderRadius: 50,
   },
-  messageContainer: {
+  receiver: {
     marginTop: 10,
     marginVertical: 5,
     marginLeft: 20,
@@ -19,5 +19,14 @@ export default StyleSheet.create({
     backgroundColor: "#4d426d",
     borderRadius: 20,
     marginRight: "auto",
+  },
+  sender: {
+    marginTop: 10,
+    marginVertical: 5,
+    marginLeft: "auto",
+    marginRight: 20,
+    padding: 15,
+    backgroundColor: "#EFA985",
+    borderRadius: 20,
   },
 });

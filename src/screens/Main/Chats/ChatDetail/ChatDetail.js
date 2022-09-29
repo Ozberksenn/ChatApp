@@ -3,25 +3,72 @@ import React, { useEffect, useState } from "react";
 import styles from "./ChatDetail.style";
 import Header from "../../../../components/ChatDetailHeader/Header";
 import Footer from "../../../../components/ChatDetailFooter/Footer";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  where,
+  query,
+  orderBy,
+  QuerySnapshot,
+  doc,
+} from "firebase/firestore";
 import { firestore } from "../../../../../config";
 const ChatDetail = ({ route }) => {
   const { uid, userName, profilPhoto } = route.params;
   const { userInfo } = useSelector((state) => state.user);
-  const [message, setMessage] = useState();
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     getCollection();
   }, []);
 
-  const getCollection = async () => {
-    const response = collection(firestore, "messages");
-    await getDocs(response).then((e) =>
-      setMessage(e.docs.map((item) => item.data()))
+  const getCollection = () => {
+    const messages = [];
+
+    const sender = query(
+      collection(firestore, "messages"),
+      where("sender_id", "==", userInfo.uid),
+      where("receiver_id", "==", uid)
     );
+    const senderMe = onSnapshot(sender, (QuerySnapshot) => {
+      QuerySnapshot.forEach((doc) => {
+        setData((prev) => [...prev, doc.data()]);
+      });
+    });
+    const receiver = query(
+      collection(firestore, "messages"),
+      where("sender_id", "==", uid),
+      where("receiver_id", "==", userInfo.uid)
+    );
+    const recevierMe = onSnapshot(receiver, (QuerySnapshot) => {
+      QuerySnapshot.forEach((doc) => {
+        setData((prev) => [...prev, doc.data()]);
+      });
+    });
   };
+
+  // const getCollection = async () => {
+  //   const response = onSnapshot(collection(firestore, "messages"));
+  //   await getDocs(response).then((e) =>
+  //     e.docs.map(async (item, index) => {
+  //       const message = item.data();
+  //       if (
+  //         (message.receiver_id === userInfo.uid && message.sender_id === uid) ||
+  //         (message.sender_id === userInfo.uid && message.receiver_id === uid)
+  //       ) {
+  //         console.log(index);
+  //         messages.push(message);
+  //       } else {
+  //         console.log("benden yok");
+  //       }
+  //     })
+  //   );
+  //   setData(
+  //     messages.sort((firstItem, secondItem) => firstItem.date - secondItem.date)
+  //   );
+  // };
 
   return (
     <View style={styles.container}>
@@ -29,14 +76,22 @@ const ChatDetail = ({ route }) => {
         <Header profilPhoto={profilPhoto} userName={userName} />
       </View>
       <View style={styles.content}>
-        <View style={{ marginTop: 30 }}>
+        <View>
           <FlatList
-            style={{}}
-            data={message}
+            style={{ marginTop: 30, height: "90%" }}
+            data={data}
             renderItem={({ item }) => (
-              <View style={styles.messageContainer}>
-                <Text>{item.content}</Text>
-              </View>
+              <>
+                {item.receiver_id === userInfo.uid ? (
+                  <View key={item.id} style={styles.receiver}>
+                    <Text style={{ color: "#fff" }}>{item.content}</Text>
+                  </View>
+                ) : (
+                  <View key={item.id} style={styles.sender}>
+                    <Text style={{ color: "#fff" }}>{item.content}</Text>
+                  </View>
+                )}
+              </>
             )}
           />
         </View>

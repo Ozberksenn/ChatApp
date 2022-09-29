@@ -32,6 +32,7 @@ const Contacts = () => {
       <View style={styles.content}>
         <View style={styles.cardContainer}>
           <FlatList
+            style={{ height: "90%" }}
             data={data}
             renderItem={(item) => <ChatCard data={item} />}
           />
