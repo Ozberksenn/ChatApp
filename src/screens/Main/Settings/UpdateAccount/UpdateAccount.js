@@ -38,11 +38,17 @@ const UpdateAccount = () => {
       quality: 1,
     });
     if (!result.cancelled) {
-      // kütüphaneden aldığımız photo url i base64 e çeviriyoruz. upload butonuna tıklandıktan sonra değiştiriyoruz.
+      // kütüphaneden aldığımız photo url i base64 e çeviriyoruz.
       const base64 = await UploadImageAsync(result.uri);
       setImage(base64);
-      updateDoc(editImage);
+      editImage(base64);
     }
+  };
+  const editImage = async (base64) => {
+    const profilPhoto = doc(firestore, "users", userInfo?.uid);
+    await updateDoc(profilPhoto, {
+      profilPhoto: base64,
+    });
   };
   const handleUpdate = async () => {
     //userName , mail ve password bilgilerini her yerden güncelledim.
@@ -54,7 +60,6 @@ const UpdateAccount = () => {
             userName: userName,
             mail: mail,
             password: password,
-            profilPhoto: editImage,
           });
         });
         await AsyncStorage.removeItem("user").then(() => {
