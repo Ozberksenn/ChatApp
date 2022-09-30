@@ -22,7 +22,7 @@ const Chats = () => {
   const [users, setUsers] = useState([]);
   const userListId = [];
   const userList = [];
-
+  const { activeTheme } = useSelector((state) => state.theme);
   const { userInfo } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -71,9 +71,9 @@ const Chats = () => {
   };
 
   const getMessageUser = async () => {
-    const response = collection(firestore, "messages");
-    await getDocs(response).then((e) => {
-      setMessages(e.docs.map((item) => item.data()));
+    // mesajları anlık olarak aldırıyoruz.
+    await onSnapshot(collection(firestore, "messages"), (snapshot) => {
+      setMessages(snapshot.docs.map((item) => item.data()));
     });
   };
 
@@ -82,7 +82,7 @@ const Chats = () => {
       <View>
         <Text style={styles.headerText}>Chats</Text>
       </View>
-      <View style={styles.content}>
+      <View style={[styles.content, { backgroundColor: activeTheme.bgColor }]}>
         <View style={styles.cardContainer}>
           <FlatList
             horizontal={true}

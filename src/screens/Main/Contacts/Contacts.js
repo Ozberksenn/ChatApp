@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 const Contacts = () => {
   const [data, setData] = useState(null);
   const { userInfo } = useSelector((state) => state.user);
+  const { activeTheme } = useSelector((state) => state.theme);
   useEffect(() => {
     getCollection();
   }, []);
@@ -29,7 +30,7 @@ const Contacts = () => {
       <View>
         <Text style={styles.headerText}>Contacts</Text>
       </View>
-      <View style={styles.content}>
+      <View style={[styles.content, { backgroundColor: activeTheme.bgColor }]}>
         <View style={styles.cardContainer}>
           <FlatList
             style={{ height: "90%" }}

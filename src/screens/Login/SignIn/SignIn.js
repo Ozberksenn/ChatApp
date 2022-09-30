@@ -6,7 +6,7 @@ import Button from "../../../components/Button/Button";
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, firestore } from "../../../../config";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../../../redux/UserSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
@@ -15,6 +15,7 @@ import { doc, getDoc } from "firebase/firestore";
 const SignIn = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { activeTheme } = useSelector((state) => state.theme);
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
   const handleSignIn = () => {
@@ -46,9 +47,11 @@ const SignIn = () => {
   };
   return (
     <SafeAreaView style={styles.signInContainer}>
-      <View style={styles.content}>
+      <View style={[styles.content, { backgroundColor: activeTheme.bgColor }]}>
         <View style={styles.titleContainer}>
-          <Text style={styles.AccountText}>Sign In To Your Account</Text>
+          <Text style={[styles.AccountText, { color: activeTheme.textColor }]}>
+            Sign In To Your Account
+          </Text>
         </View>
         <View style={{ marginTop: 50 }}>
           <Input

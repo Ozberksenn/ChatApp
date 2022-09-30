@@ -4,6 +4,7 @@ import styles from "./SignUp.style";
 import { Ionicons } from "@expo/vector-icons";
 import Input from "../../../components/Input/Input";
 import Button from "../../../components/Button/Button";
+import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
@@ -11,6 +12,7 @@ import { auth, firestore } from "../.././../../config";
 import Toast from "react-native-toast-message";
 const SignUp = () => {
   const navigation = useNavigation();
+  const { activeTheme } = useSelector((state) => state.theme);
   const [userName, setUserName] = useState(null);
   const [mail, setMail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -52,12 +54,17 @@ const SignUp = () => {
   };
   return (
     <SafeAreaView style={styles.signUpContainer}>
-      <View style={styles.content}>
+      <View style={[styles.content, { backgroundColor: activeTheme.bgColor }]}>
         <View style={styles.titleContainer}>
           <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
-            <Ionicons style={styles.backIcon} name="arrow-back" />
+            <Ionicons
+              style={[styles.backIcon, { color: activeTheme.textColor }]}
+              name="arrow-back"
+            />
           </TouchableOpacity>
-          <Text style={styles.AccountText}>Create a Account</Text>
+          <Text style={[styles.AccountText, { color: activeTheme.textColor }]}>
+            Create a Account
+          </Text>
         </View>
         <View style={{ marginTop: 20 }}>
           <Input

@@ -2,7 +2,9 @@ import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import styles from "./ChatCard.style";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 const ChatCard = ({ data }) => {
+  const { activeTheme } = useSelector((state) => state.theme);
   // kişileri listeleteceğimiz kart yapısı.
   const navigation = useNavigation();
   return (
@@ -24,14 +26,21 @@ const ChatCard = ({ data }) => {
           />
         </View>
         <View style={styles.nameAndMessage}>
-          <Text style={styles.name}>{data.item.userName}</Text>
-          <Text numberOfLines={1} style={styles.text}>
+          <Text style={[styles.name, { color: activeTheme.textColor }]}>
+            {data.item.userName}
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={[styles.text, { color: activeTheme.textColor }]}
+          >
             Hey There I'm Using ChatApp
           </Text>
         </View>
       </View>
       <View style={styles.dateContainer}>
-        <Text style={styles.date}>date</Text>
+        <Text style={[styles.date, { color: activeTheme.textColor }]}>
+          date
+        </Text>
       </View>
     </Pressable>
   );
