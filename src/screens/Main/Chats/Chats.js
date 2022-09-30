@@ -26,6 +26,7 @@ const Chats = () => {
   const { userInfo } = useSelector((state) => state.user);
 
   useEffect(() => {
+    // tüm mesajlar arasından ben ile mesajlaştığım kullanıcıların uid alıyorum.
     if (messages.length > 0) {
       messages.map((e) => {
         if (e.receiver_id === userInfo.uid || e.sender_id === userInfo.uid) {
@@ -46,6 +47,7 @@ const Chats = () => {
   }, [data]);
 
   useEffect(() => {
+    // uid lerini bulduğum kullanıcıların verilerini çekiyorum.
     if (users.length > 0) getUsers();
   }, [users]);
 

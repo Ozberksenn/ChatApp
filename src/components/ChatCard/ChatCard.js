@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./ChatCard.style";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import moment from "moment";
 const ChatCard = ({ data }) => {
   const { activeTheme } = useSelector((state) => state.theme);
   // kişileri listeleteceğimiz kart yapısı.
@@ -39,7 +40,7 @@ const ChatCard = ({ data }) => {
       </View>
       <View style={styles.dateContainer}>
         <Text style={[styles.date, { color: activeTheme.textColor }]}>
-          date
+          {moment.utc(1224547567425).startOf("day").fromNow()}
         </Text>
       </View>
     </Pressable>

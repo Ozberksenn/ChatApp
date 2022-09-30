@@ -15,6 +15,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { firestore } from "../../../../../config";
+import moment from "moment/moment";
 const ChatDetail = ({ route }) => {
   const { uid, userName, profilPhoto } = route.params;
   const { userInfo } = useSelector((state) => state.user);
@@ -24,32 +25,54 @@ const ChatDetail = ({ route }) => {
     getCollection();
   }, []);
 
-  const getCollection = () => {
-    const messages = [];
+  // const getCollection = () => {
+  //   const messages = [];
 
-    const sender = query(
-      collection(firestore, "messages"),
-      where("sender_id", "==", userInfo.uid),
-      where("receiver_id", "==", uid)
-    );
-    const senderMe = onSnapshot(sender, (QuerySnapshot) => {
-      QuerySnapshot.forEach((doc) => {
-        setData((prev) => [...prev, doc.data()]);
+  //   const sender = query(
+  //     collection(firestore, "messages"),
+  //     where("sender_id", "==", userInfo.uid),
+  //     where("receiver_id", "==", uid)
+  //   );
+  //   const senderMe = onSnapshot(sender, (QuerySnapshot) => {
+  //     QuerySnapshot.forEach((doc) => {
+  //       setData((prev) => [...prev, doc.data()]);
+  //     });
+  //   });
+  //   const receiver = query(
+  //     collection(firestore, "messages"),
+  //     where("sender_id", "==", uid),
+  //     where("receiver_id", "==", userInfo.uid)
+  //   );
+  //   const recevierMe = onSnapshot(receiver, (QuerySnapshot) => {
+  //     QuerySnapshot.forEach((doc) => {
+  //       setData((prev) => [...prev, doc.data()]);
+  //     });
+  //   });
+  // };
+
+  const getCollection = async () => {
+    await onSnapshot(collection(firestore, "messages"), (snapshot) => {
+      snapshot.docs.map((item) => {
+        const message = item.data();
+        if (
+          (message.receiver_id === userInfo.uid && message.sender_id === uid) ||
+          (message.sender_id === userInfo.uid && message.receiver_id === uid)
+        ) {
+          // console.log(message);
+          setData((data) => [...data, message]);
+        } else {
+          console.log("bende mesaj yok");
+        }
       });
-    });
-    const receiver = query(
-      collection(firestore, "messages"),
-      where("sender_id", "==", uid),
-      where("receiver_id", "==", userInfo.uid)
-    );
-    const recevierMe = onSnapshot(receiver, (QuerySnapshot) => {
-      QuerySnapshot.forEach((doc) => {
-        setData((prev) => [...prev, doc.data()]);
-      });
+
+      // setData(
+      //   messages.sort(
+      //     (firstItem, secondItem) => firstItem.date - secondItem.date
+      //   )
+      // );
     });
   };
 
-  // const getCollection = async () => {
   //   const response = onSnapshot(collection(firestore, "messages"));
   //   await getDocs(response).then((e) =>
   //     e.docs.map(async (item, index) => {
@@ -85,10 +108,12 @@ const ChatDetail = ({ route }) => {
                 {item.receiver_id === userInfo.uid ? (
                   <View key={item.id} style={styles.receiver}>
                     <Text style={{ color: "#fff" }}>{item.content}</Text>
+                    <Text>{moment.utc(item.date).format("HH:mm")}</Text>
                   </View>
                 ) : (
                   <View key={item.id} style={styles.sender}>
                     <Text style={{ color: "#fff" }}>{item.content}</Text>
+                    <Text>{moment.utc(item.date).format("HH:mm")}</Text>
                   </View>
                 )}
               </>

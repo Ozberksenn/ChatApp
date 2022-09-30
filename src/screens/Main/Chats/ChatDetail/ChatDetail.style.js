@@ -12,6 +12,7 @@ export default StyleSheet.create({
     borderRadius: 50,
   },
   receiver: {
+    flexDirection: "row",
     marginTop: 10,
     marginVertical: 5,
     marginLeft: 20,
@@ -21,6 +22,7 @@ export default StyleSheet.create({
     marginRight: "auto",
   },
   sender: {
+    flexDirection: "row",
     marginTop: 10,
     marginVertical: 5,
     marginLeft: "auto",
@@ -28,5 +30,8 @@ export default StyleSheet.create({
     padding: 15,
     backgroundColor: "#EFA985",
     borderRadius: 20,
+  },
+  date: {
+    fontSize: 12,
   },
 });
