@@ -4,17 +4,18 @@ import {
   Image,
   Text,
   Modal,
-  SafeAreaView,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Stories.style";
 import { useSelector } from "react-redux";
 const Stories = ({ data }) => {
   const { activeTheme } = useSelector((state) => state.theme);
   const [modalVisible, setModalVisible] = useState(false);
 
-  // Story kısmında her bir kişiye tıkladığımızda görseli göstereceğimiz bir modal açıyoruz.
+  // console.log("stories data", data.item.stories[0].storiesUrl);
+
+  // Story kısmında her bimr kişiye tıkladığımızda görseli göstereceğimiz bir modal açıyoruz.
   return (
     <View>
       <Modal
@@ -33,9 +34,7 @@ const Stories = ({ data }) => {
             <View style={styles.modal}>
               <Image
                 style={styles.modalImage}
-                source={{
-                  uri: "https://p4.wallpaperbetter.com/wallpaper/763/323/685/marlon-brando-photoshopped-the-godfather-wallpaper-preview.jpg",
-                }}
+                source={{ uri: data.item.stories[0].storiesUrl }}
               />
             </View>
           </Pressable>

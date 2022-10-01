@@ -33,7 +33,7 @@ const Contacts = () => {
       <View style={[styles.content, { backgroundColor: activeTheme.bgColor }]}>
         <View style={styles.cardContainer}>
           <FlatList
-            style={{ height: "90%" }}
+            style={{ height: "100%" }}
             data={data}
             renderItem={(item) => <ChatCard data={item} />}
           />

@@ -1,9 +1,18 @@
-import { View, Text, SafeAreaView, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./Chats.style";
 import ChatCard from "../../../components/ChatCard/ChatCard";
 import Stories from "../../../components/Stories/Stories";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { useSelector } from "react-redux";
+import uploadImageAsync from "../../../hooks/UploadImageAsync";
 import {
   collection,
   doc,
@@ -11,6 +20,8 @@ import {
   getDocs,
   onSnapshot,
   query,
+  setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { firestore } from "../../../../config";
@@ -19,9 +30,9 @@ const Chats = () => {
   const [storyData, setStoryData] = useState();
   const [data, setData] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [image, setImage] = useState();
   const [users, setUsers] = useState([]);
   const userListId = [];
-  const userList = [];
   const { activeTheme } = useSelector((state) => state.theme);
   const { userInfo } = useSelector((state) => state.user);
 
@@ -43,7 +54,7 @@ const Chats = () => {
   }, [messages]);
 
   useEffect(() => {
-    if (data.length > 0) console.log("data", data);
+    if (data.length > 0);
   }, [data]);
 
   useEffect(() => {
@@ -66,7 +77,10 @@ const Chats = () => {
   }, []);
 
   const getCollection = async () => {
-    const response = collection(firestore, "users");
+    const response = query(
+      collection(firestore, "users"),
+      where("stories", "!=", null)
+    );
     await getDocs(response).then((e) => {
       setStoryData(e.docs.map((item) => item.data()));
     });
@@ -79,6 +93,30 @@ const Chats = () => {
     });
   };
 
+  const handlStoriesIcon = async () => {
+    //story atan kullanıcılar listelendirildi ve modal içinde kullanıcının paylaştığı story gösterildi.
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      const base64 = await uploadImageAsync(result.uri);
+      setImage(base64);
+      const date = Date.now();
+      const stories = doc(firestore, "users", userInfo.uid);
+      await updateDoc(stories, {
+        stories: [
+          {
+            storiesUrl: base64,
+            date: date,
+          },
+        ],
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -86,6 +124,16 @@ const Chats = () => {
       </View>
       <View style={[styles.content, { backgroundColor: activeTheme.bgColor }]}>
         <View style={styles.cardContainer}>
+          <TouchableOpacity
+            onPress={handlStoriesIcon}
+            style={styles.storiesIcon}
+          >
+            <MaterialCommunityIcons
+              name="camera-plus"
+              size={24}
+              color="black"
+            />
+          </TouchableOpacity>
           <FlatList
             horizontal={true}
             data={storyData}

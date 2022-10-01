@@ -107,12 +107,16 @@ const ChatDetail = ({ route }) => {
                 {item.receiver_id === userInfo.uid ? (
                   <View key={item.id} style={styles.receiver}>
                     <Text style={{ color: "#fff" }}>{item.content}</Text>
-                    <Text>{moment.utc(item.date).format("HH:mm")}</Text>
+                    <Text style={[styles.date, { color: "#efa985" }]}>
+                      {moment.utc(item.date).format("HH:mm")}
+                    </Text>
                   </View>
                 ) : (
                   <View key={item.id} style={styles.sender}>
                     <Text style={{ color: "#fff" }}>{item.content}</Text>
-                    <Text>{moment.utc(item.date).format("HH:mm")}</Text>
+                    <Text style={styles.date}>
+                      {moment.utc(item.date).format("HH:mm")}
+                    </Text>
                   </View>
                 )}
               </>

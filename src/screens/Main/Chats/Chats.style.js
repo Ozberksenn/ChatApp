@@ -21,13 +21,22 @@ export default StyleSheet.create({
     backgroundColor: "#6D5F9A",
   },
   cardContainer: {
-    marginLeft: 20,
-    marginRight: 20,
+    flexDirection: "row",
+    marginLeft: 10,
+    marginRight: 10,
     marginTop: 40,
   },
   line: {
     marginVertical: 10,
     borderWidth: 1,
     borderColor: "#efa985",
+  },
+  storiesIcon: {
+    width: 60,
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderRadius: 50,
   },
 });

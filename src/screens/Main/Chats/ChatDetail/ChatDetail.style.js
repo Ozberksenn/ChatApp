@@ -32,6 +32,11 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   date: {
-    fontSize: 12,
+    position: "absolute",
+    bottom: 0,
+    right: 5,
+    padding: 5,
+    fontSize: 8,
+    color: "#4d426d",
   },
 });
