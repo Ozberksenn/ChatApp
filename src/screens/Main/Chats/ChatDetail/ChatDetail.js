@@ -61,7 +61,6 @@ const ChatDetail = ({ route }) => {
           // console.log(message);
           setData((data) => [...data, message]);
         } else {
-          console.log("bende mesaj yok");
         }
       });
 
