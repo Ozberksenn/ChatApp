@@ -5,22 +5,31 @@ import {
   Text,
   Modal,
   Pressable,
+  SafeAreaView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./Stories.style";
 import { useSelector } from "react-redux";
+import LottieView from "lottie-react-native";
 const Stories = ({ data }) => {
   const { activeTheme } = useSelector((state) => state.theme);
   const [modalVisible, setModalVisible] = useState(false);
 
-  // console.log("stories data", data.item.stories[0].storiesUrl);
+  useEffect(() => {
+    setTimeout(() => {
+      handleCloseModal();
+    }, 6000);
+  }, [modalVisible]);
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
 
   // Story kısmında her bimr kişiye tıkladığımızda görseli göstereceğimiz bir modal açıyoruz.
   return (
     <View>
       <Modal
         animationType="slide"
-        transparent={true}
         visible={modalVisible}
         onBackdropPress={false}
         onSwipeComplete={false}
@@ -30,13 +39,18 @@ const Stories = ({ data }) => {
         }}
       >
         <View style={styles.modalContainer}>
-          <Pressable onPress={() => setModalVisible(false)}>
-            <View style={styles.modal}>
+          <Pressable onPress={handleCloseModal}>
+            <SafeAreaView style={styles.modal}>
+              <LottieView
+                style={{ left: 10, height: 6 }}
+                autoPlay
+                source={require("../../assets/progresBar.json")}
+              />
               <Image
                 style={styles.modalImage}
                 source={{ uri: data.item.stories[0].storiesUrl }}
               />
-            </View>
+            </SafeAreaView>
           </Pressable>
         </View>
       </Modal>

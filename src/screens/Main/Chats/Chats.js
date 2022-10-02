@@ -20,17 +20,17 @@ import {
   getDocs,
   onSnapshot,
   query,
-  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
 import { firestore } from "../../../../config";
-
+import { Camera } from "expo-camera";
 const Chats = () => {
   const [storyData, setStoryData] = useState();
   const [data, setData] = useState([]);
   const [messages, setMessages] = useState([]);
   const [image, setImage] = useState();
+  const [hasPermission, setHasPermission] = useState(null);
   const [users, setUsers] = useState([]);
   const userListId = [];
   const { activeTheme } = useSelector((state) => state.theme);
@@ -95,7 +95,7 @@ const Chats = () => {
 
   const handlStoriesIcon = async () => {
     //story atan kullanıcılar listelendirildi ve modal içinde kullanıcının paylaştığı story gösterildi.
-    let result = await ImagePicker.launchImageLibraryAsync({
+    let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
@@ -116,6 +116,17 @@ const Chats = () => {
       });
     }
   };
+
+  useEffect(() => {
+    // we trigger for camera permissions. Access to the camera must be granted from the Expo!
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, [handlStoriesIcon]);
+  if (hasPermission === false) {
+    Alert.alert("Warning", "No Access To Camera");
+  }
 
   return (
     <SafeAreaView style={styles.container}>
