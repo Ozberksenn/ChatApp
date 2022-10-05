@@ -16,8 +16,8 @@ import uploadImageAsync from "../../../hooks/UploadImageAsync";
 import {
   collection,
   doc,
-  getDoc,
   getDocs,
+  getDoc,
   onSnapshot,
   query,
   updateDoc,
@@ -32,67 +32,28 @@ const Chats = () => {
   const [image, setImage] = useState();
   const [hasPermission, setHasPermission] = useState(null);
   const [users, setUsers] = useState([]);
-  const userListId = [];
   const { activeTheme } = useSelector((state) => state.theme);
   const { userInfo } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    // tüm mesajlar arasından ben ile mesajlaştığım kullanıcıların uid alıyorum.
-    if (messages.length > 0) {
-      messages.map((e) => {
-        if (e.receiver_id === userInfo.uid || e.sender_id === userInfo.uid) {
-          if (e.receiver_id === userInfo.uid) {
-            userListId.push(e.sender_id);
-          } else if (e.sender_id === userInfo.uid) {
-            userListId.push(e.receiver_id);
-          }
-        }
-      });
-      const uniqueUserList = Array.from(new Set(userListId));
-      setUsers(uniqueUserList);
-    }
-  }, [messages]);
-
-  useEffect(() => {
-    if (data.length > 0);
-  }, [data]);
-
-  useEffect(() => {
-    // uid lerini bulduğum kullanıcıların verilerini çekiyorum.
-    if (users.length > 0) getUsers();
-  }, [users]);
-
-  const getUsers = async () => {
-    users.map(async (e) => {
-      const q = doc(firestore, "users", e);
-      await getDoc(q).then((res) => {
-        setData((prevData) => [...prevData, res.data()]);
-      });
-    });
-  };
+  const userListId = [];
 
   useEffect(() => {
     getCollection();
-    getMessageUser();
+    getMessage();
   }, []);
-
   const getCollection = async () => {
+    // yalnızca story atan kullanıcıları gösteriyoruz.
     const response = query(
       collection(firestore, "users"),
       where("stories", "!=", null)
     );
-    await getDocs(response).then((e) => {
-      setStoryData(e.docs.map((item) => item.data()));
+    onSnapshot(response, (querySnapshot) => {
+      const story = [];
+      querySnapshot.forEach((doc) => {
+        story.push(doc.data());
+      });
+      setStoryData(story);
     });
   };
-
-  const getMessageUser = async () => {
-    // mesajları anlık olarak aldırıyoruz.
-    await onSnapshot(collection(firestore, "messages"), (snapshot) => {
-      setMessages(snapshot.docs.map((item) => item.data()));
-    });
-  };
-
   const handlStoriesIcon = async () => {
     //story atan kullanıcılar listelendirildi ve modal içinde kullanıcının paylaştığı story gösterildi.
     let result = await ImagePicker.launchCameraAsync({
@@ -116,7 +77,6 @@ const Chats = () => {
       });
     }
   };
-
   useEffect(() => {
     // we trigger for camera permissions. Access to the camera must be granted from the Expo!
     (async () => {
@@ -127,6 +87,49 @@ const Chats = () => {
   if (hasPermission === false) {
     Alert.alert("Warning", "No Access To Camera");
   }
+
+  const getMessage = () => {
+    const q = collection(firestore, "messages");
+    onSnapshot(q, (snapshot) => {
+      const messages = [];
+      snapshot.docChanges().forEach((change) => {
+        messages.push(change.doc.data());
+      });
+      setMessages(messages);
+    });
+  };
+
+  useEffect(() => {
+    messages.map((e) => {
+      if (e.receiver_id === userInfo.uid || e.sender_id === userInfo.uid) {
+        if (e.receiver_id === userInfo.uid) {
+          userListId.push(e.sender_id);
+        } else if (e.sender_id === userInfo.uid) {
+          userListId.push(e.receiver_id);
+        }
+      }
+    });
+    const uniqueUserList = Array.from(new Set(userListId));
+    setUsers(uniqueUserList);
+  }, [messages]);
+
+  useEffect(() => {
+    if (data.length > 0 && data);
+  }, [data]);
+
+  useEffect(() => {
+    // uid lerini bulduğum kullanıcıların verilerini çekiyorum.
+    getUsers();
+  }, [users]);
+
+  const getUsers = async () => {
+    users.map(async (e) => {
+      const q = doc(firestore, "users", e);
+      await getDoc(q).then((res) => {
+        setData((prevData) => [...prevData, res.data()]);
+      });
+    });
+  };
 
   return (
     <SafeAreaView style={styles.container}>

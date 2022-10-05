@@ -1,12 +1,44 @@
 import { View, Text, Image, Pressable } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./ChatCard.style";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import { firestore } from "../../../config";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import moment from "moment";
 const ChatCard = ({ data }) => {
-  const { activeTheme } = useSelector((state) => state.theme);
   // kişileri listeleteceğimiz kart yapısı.
+  const { activeTheme } = useSelector((state) => state.theme);
+  const { userInfo } = useSelector((state) => state.user);
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    getMessage();
+  }, []);
+
+  const getMessage = () => {
+    onSnapshot(
+      query(
+        collection(firestore, "messages"),
+        orderBy("date", "asc")
+        // tarihe göres sıraladım..
+      ),
+      (snapshot) => {
+        snapshot.docChanges().forEach((item) => {
+          const message = item.doc.data();
+          if (
+            (message.receiver_id === userInfo.uid &&
+              message.sender_id === data.item.uid) ||
+            (message.sender_id === userInfo.uid &&
+              message.receiver_id === data.item.uid)
+          ) {
+            setMessages((prevData) => [...prevData, message]);
+          }
+        });
+      }
+    );
+  };
+
   const navigation = useNavigation();
   return (
     <Pressable
@@ -34,13 +66,22 @@ const ChatCard = ({ data }) => {
             numberOfLines={1}
             style={[styles.text, { color: activeTheme.textColor }]}
           >
-            Hey There I'm Using ChatApp
+            {messages[messages.length - 1]
+              ? messages[messages.length - 1]?.content
+              : userInfo.bio}
           </Text>
         </View>
       </View>
       <View style={styles.dateContainer}>
         <Text style={[styles.date, { color: activeTheme.textColor }]}>
-          {moment.utc(1224547567425).startOf("day").fromNow()}
+          {messages[messages.length - 1]?.date && (
+            <>
+              {moment
+                .utc(messages[messages.length - 1]?.date)
+                .startOf("day")
+                .fromNow()}
+            </>
+          )}
         </Text>
       </View>
     </Pressable>

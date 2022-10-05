@@ -5,6 +5,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { firestore } from "../../../config";
 import { doc, setDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
+
 import uuid from "react-native-uuid";
 const Footer = ({ uid }) => {
   const { userInfo } = useSelector((state) => state.user);

@@ -28,7 +28,7 @@ export default StyleSheet.create({
   modalImage: {
     marginTop: 20,
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height / 1.2,
+    height: Dimensions.get("window").height / 1.1,
     resizeMode: "stretch",
     borderRadius: 10,
     opacity: 0.9,

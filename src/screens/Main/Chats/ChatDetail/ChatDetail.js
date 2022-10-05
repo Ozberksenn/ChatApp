@@ -4,93 +4,40 @@ import styles from "./ChatDetail.style";
 import Header from "../../../../components/ChatDetailHeader/Header";
 import Footer from "../../../../components/ChatDetailFooter/Footer";
 import { useSelector } from "react-redux";
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  where,
-  query,
-  orderBy,
-  QuerySnapshot,
-  doc,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { firestore } from "../../../../../config";
 import moment from "moment/moment";
 const ChatDetail = ({ route }) => {
   const { uid, userName, profilPhoto } = route.params;
   const { userInfo } = useSelector((state) => state.user);
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
     getCollection();
   }, []);
 
-  // const getCollection = () => {
-  //   const messages = [];
-
-  //   const sender = query(
-  //     collection(firestore, "messages"),
-  //     where("sender_id", "==", userInfo.uid),
-  //     where("receiver_id", "==", uid)
-  //   );
-  //   const senderMe = onSnapshot(sender, (QuerySnapshot) => {
-  //     QuerySnapshot.forEach((doc) => {
-  //       setData((prev) => [...prev, doc.data()]);
-  //     });
-  //   });
-  //   const receiver = query(
-  //     collection(firestore, "messages"),
-  //     where("sender_id", "==", uid),
-  //     where("receiver_id", "==", userInfo.uid)
-  //   );
-  //   const recevierMe = onSnapshot(receiver, (QuerySnapshot) => {
-  //     QuerySnapshot.forEach((doc) => {
-  //       setData((prev) => [...prev, doc.data()]);
-  //     });
-  //   });
-  // };
-
   const getCollection = async () => {
-    await onSnapshot(collection(firestore, "messages"), (snapshot) => {
-      snapshot.docs.map((item) => {
-        const message = item.data();
-        if (
-          (message.receiver_id === userInfo.uid && message.sender_id === uid) ||
-          (message.sender_id === userInfo.uid && message.receiver_id === uid)
-        ) {
-          // console.log(message);
-          setData((data) => [...data, message]);
-        } else {
-        }
-      });
-
-      // setData(
-      //   messages.sort(
-      //     (firstItem, secondItem) => firstItem.date - secondItem.date
-      //   )
-      // );
-    });
+    onSnapshot(
+      query(
+        collection(firestore, "messages"),
+        orderBy("date", "asc")
+        // tarihe göres sıraladım..
+      ),
+      (snapshot) => {
+        snapshot.docChanges().forEach((item) => {
+          const message = item.doc.data();
+          if (
+            (message.receiver_id === userInfo.uid &&
+              message.sender_id === uid) ||
+            (message.sender_id === userInfo.uid && message.receiver_id === uid)
+          ) {
+            setData((prevData) => [...prevData, message]);
+          }
+        });
+      }
+    );
   };
-
-  //   const response = onSnapshot(collection(firestore, "messages"));
-  //   await getDocs(response).then((e) =>
-  //     e.docs.map(async (item, index) => {
-  //       const message = item.data();
-  //       if (
-  //         (message.receiver_id === userInfo.uid && message.sender_id === uid) ||
-  //         (message.sender_id === userInfo.uid && message.receiver_id === uid)
-  //       ) {
-  //         console.log(index);
-  //         messages.push(message);
-  //       } else {
-  //         console.log("benden yok");
-  //       }
-  //     })
-  //   );
-  //   setData(
-  //     messages.sort((firstItem, secondItem) => firstItem.date - secondItem.date)
-  //   );
-  // };
 
   return (
     <View style={styles.container}>
@@ -100,7 +47,7 @@ const ChatDetail = ({ route }) => {
       <View style={styles.content}>
         <View>
           <FlatList
-            style={{ marginTop: 30, height: "90%" }}
+            style={{ marginTop: 30, height: "81%" }}
             data={data}
             renderItem={({ item }) => (
               <>
