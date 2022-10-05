@@ -16,7 +16,6 @@ import uploadImageAsync from "../../../hooks/UploadImageAsync";
 import {
   collection,
   doc,
-  getDocs,
   getDoc,
   onSnapshot,
   query,
@@ -40,6 +39,7 @@ const Chats = () => {
     getCollection();
     getMessage();
   }, []);
+
   const getCollection = async () => {
     // yalnızca story atan kullanıcıları gösteriyoruz.
     const response = query(
@@ -49,7 +49,12 @@ const Chats = () => {
     onSnapshot(response, (querySnapshot) => {
       const story = [];
       querySnapshot.forEach((doc) => {
-        story.push(doc.data());
+        const time = new Date(doc.data().stories[0].date);
+        const lastDate = time.getHours();
+        if (lastDate < 6) {
+          //6 saat içinde story atmış olan kullanıcıları göstermesini istedik.
+          story.push(doc.data());
+        }
       });
       setStoryData(story);
     });
