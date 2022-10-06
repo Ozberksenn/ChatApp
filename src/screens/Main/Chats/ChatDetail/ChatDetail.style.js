@@ -39,4 +39,19 @@ export default StyleSheet.create({
     fontSize: 8,
     color: "#4d426d",
   },
+  map: {
+    width: 125,
+    height: 125,
+    borderRadius: 15,
+  },
+  mapDate: {
+    position: "absolute",
+    fontWeight: "bold",
+    backgroundColor: "#6D5F9A",
+    fontSize: 10,
+    bottom: -5,
+    color: "#fff",
+    right: 5,
+    padding: 2,
+  },
 });

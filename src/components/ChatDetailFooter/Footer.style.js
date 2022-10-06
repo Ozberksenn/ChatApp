@@ -2,11 +2,13 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
-    marginVertical: 20,
+    flex: 1,
+    marginVertical: 25,
+    justifyContent: "space-evenly",
     flexDirection: "row",
   },
   input: {
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     width: 300,
     padding: 10,
     backgroundColor: "#fff",
@@ -23,5 +25,10 @@ export default StyleSheet.create({
     borderColor: "#4D426D",
     justifyContent: "center",
     alignItems: "center",
+    right: 5,
+  },
+  locationIcon: {
+    justifyContent: "center",
+    left: 5,
   },
 });
