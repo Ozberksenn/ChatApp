@@ -6,12 +6,12 @@ import Footer from "../../../../components/ChatDetailFooter/Footer";
 import { useSelector } from "react-redux";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { firestore } from "../../../../../config";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import moment from "moment/moment";
+
 const ChatDetail = ({ route }) => {
   const { uid, userName, profilPhoto } = route.params;
   const { userInfo } = useSelector((state) => state.user);
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -40,6 +40,14 @@ const ChatDetail = ({ route }) => {
     );
   };
 
+  const msg = (item) => {
+    if (typeof item.content === string) {
+      return item;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -47,9 +55,6 @@ const ChatDetail = ({ route }) => {
       </View>
       <View style={styles.content}>
         <View>
-          {/* <View>
-            <MapView style={{ width: 150, height: 150 }} />
-          </View> */}
           <FlatList
             style={{ marginTop: 30, height: "81%" }}
             data={data}
@@ -58,14 +63,25 @@ const ChatDetail = ({ route }) => {
                 {item.receiver_id === userInfo.uid ? (
                   item.type === "text" ? (
                     <View key={item.id} style={styles.receiver}>
-                      <Text style={{ color: "#fff" }}>{item.content}</Text>
+                      <Text style={{ color: "#fff" }}>{msg(item)}</Text>
                       <Text style={[styles.date, { color: "#efa985" }]}>
                         {moment.utc(item.date).format("HH:mm")}
                       </Text>
                     </View>
                   ) : (
-                    <View key={item.id} style={styles.receiver}>
-                      <MapView style={styles.map} />
+                    <View
+                      key={item.id}
+                      style={[styles.receiver, { padding: 5 }]}
+                    >
+                      <MapView style={styles.map}>
+                        {console.log("item", item)}
+                        <Marker
+                          coordinate={{
+                            latitude: item.latitude,
+                            longitude: item.longitude,
+                          }}
+                        />
+                      </MapView>
                       <Text style={styles.mapDate}>
                         {moment.utc(item.date).format("HH:mm")}
                       </Text>
@@ -80,7 +96,14 @@ const ChatDetail = ({ route }) => {
                   </View>
                 ) : (
                   <View key={item.id} style={[styles.sender, { padding: 5 }]}>
-                    <MapView style={styles.map} />
+                    <MapView style={styles.map}>
+                      <Marker
+                        coordinate={{
+                          latitude: item.latitude,
+                          longitude: item.longitude,
+                        }}
+                      />
+                    </MapView>
                     <Text style={styles.mapDate}>
                       {moment.utc(item.date).format("HH:mm")}
                     </Text>

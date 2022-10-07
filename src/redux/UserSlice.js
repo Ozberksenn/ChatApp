@@ -18,9 +18,13 @@ export const UserSlice = createSlice({
       state.userInfo = action.payload;
       console.log("updateUser : ", action.payload);
     },
+    updatePhoto: (state, action) => {
+      state.userInfo = action.payload;
+      console.log("updatPhoto : ", action.payload);
+    },
   },
 });
 
-export const { signUp, signIn, updateUser } = UserSlice.actions;
+export const { signUp, signIn, updateUser, updatePhoto } = UserSlice.actions;
 
 export default UserSlice.reducer;

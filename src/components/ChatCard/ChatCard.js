@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { firestore } from "../../../config";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import moment from "moment";
-const ChatCard = ({ data }) => {
+const ChatCard = ({ data, isChatView }) => {
   // kişileri listeleteceğimiz kart yapısı.
   const { activeTheme } = useSelector((state) => state.theme);
   const { userInfo } = useSelector((state) => state.user);
@@ -66,24 +66,28 @@ const ChatCard = ({ data }) => {
             numberOfLines={1}
             style={[styles.text, { color: activeTheme.textColor }]}
           >
-            {messages[messages.length - 1]
-              ? messages[messages.length - 1]?.content
+            {isChatView
+              ? messages[messages.length - 1]
+                ? messages[messages.length - 1]?.content
+                : userInfo.bio
               : userInfo.bio}
           </Text>
         </View>
       </View>
-      <View style={styles.dateContainer}>
-        <Text style={[styles.date, { color: activeTheme.textColor }]}>
-          {messages[messages.length - 1]?.date && (
-            <>
-              {moment
-                .utc(messages[messages.length - 1]?.date)
-                .startOf("day")
-                .fromNow()}
-            </>
-          )}
-        </Text>
-      </View>
+      {isChatView && (
+        <View style={styles.dateContainer}>
+          <Text style={[styles.date, { color: activeTheme.textColor }]}>
+            {messages[messages.length - 1]?.date && (
+              <>
+                {moment
+                  .utc(messages[messages.length - 1]?.date)
+                  .startOf()
+                  .fromNow()}
+              </>
+            )}
+          </Text>
+        </View>
+      )}
     </Pressable>
   );
 };

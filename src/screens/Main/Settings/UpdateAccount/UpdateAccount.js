@@ -14,9 +14,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { auth, firestore } from "../../../../../config";
 import { updateEmail, updatePassword } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import UploadImageAsync from "../../../../hooks/UploadImageAsync";
-import { updateUser } from "../../../../redux/UserSlice";
+import { updateUser, updatePhoto } from "../../../../redux/UserSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
@@ -48,6 +48,13 @@ const UpdateAccount = () => {
     const profilPhoto = doc(firestore, "users", userInfo?.uid);
     await updateDoc(profilPhoto, {
       profilPhoto: base64,
+    }).then(() => {
+      dispatch(
+        updatePhoto({
+          ...userInfo,
+          profilPhoto: base64,
+        })
+      );
     });
   };
   const handleUpdate = async () => {

@@ -35,7 +35,7 @@ const Contacts = () => {
           <FlatList
             style={{ height: "100%" }}
             data={data}
-            renderItem={(item) => <ChatCard data={item} />}
+            renderItem={(item) => <ChatCard data={item} isChatView={false} />}
           />
         </View>
       </View>

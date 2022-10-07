@@ -16,8 +16,8 @@ import uploadImageAsync from "../../../hooks/UploadImageAsync";
 import {
   collection,
   doc,
-  getDoc,
   onSnapshot,
+  getDoc,
   query,
   updateDoc,
   where,
@@ -30,14 +30,12 @@ const Chats = () => {
   const [messages, setMessages] = useState([]);
   const [image, setImage] = useState();
   const [hasPermission, setHasPermission] = useState(null);
-  const [users, setUsers] = useState([]);
   const { activeTheme } = useSelector((state) => state.theme);
   const { userInfo } = useSelector((state) => state.user);
   const userListId = [];
 
   useEffect(() => {
     getCollection();
-    getMessage();
   }, []);
 
   const getCollection = async () => {
@@ -49,10 +47,10 @@ const Chats = () => {
     onSnapshot(response, (querySnapshot) => {
       const story = [];
       querySnapshot.forEach((doc) => {
-        const time = new Date(doc.data().stories[0].date);
-        const lastDate = time.getHours();
-        if (lastDate < 6) {
-          //6 saat içinde story atmış olan kullanıcıları göstermesini istedik.
+        const currentTime = Date.now();
+        const time = doc.data().stories[0].date;
+        if (currentTime - time <= 86400000) {
+          //24 saat içinde story atmış olan kullanıcıları göstermesini istedik.
           story.push(doc.data());
         }
       });
@@ -93,6 +91,10 @@ const Chats = () => {
     Alert.alert("Warning", "No Access To Camera");
   }
 
+  useEffect(() => {
+    getMessage();
+  }, []);
+
   const getMessage = () => {
     const q = collection(firestore, "messages");
     onSnapshot(q, (snapshot) => {
@@ -115,26 +117,14 @@ const Chats = () => {
       }
     });
     const uniqueUserList = Array.from(new Set(userListId));
-    setUsers(uniqueUserList);
-  }, [messages]);
-
-  useEffect(() => {
-    if (data.length > 0 && data);
-  }, [data]);
-
-  useEffect(() => {
-    // uid lerini bulduğum kullanıcıların verilerini çekiyorum.
-    getUsers();
-  }, [users]);
-
-  const getUsers = async () => {
-    users.map(async (e) => {
+    console.log("asd", uniqueUserList);
+    uniqueUserList.map(async (e) => {
       const q = doc(firestore, "users", e);
       await getDoc(q).then((res) => {
         setData((prevData) => [...prevData, res.data()]);
       });
     });
-  };
+  }, [messages]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -164,7 +154,7 @@ const Chats = () => {
           <FlatList
             style={{ height: "90%" }}
             data={data}
-            renderItem={(item) => <ChatCard data={item} />}
+            renderItem={(item) => <ChatCard data={item} isChatView={true} />}
           />
         )}
       </View>
