@@ -1,19 +1,13 @@
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import styles from "./Footer.style";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { firestore } from "../../../config";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import * as Location from "expo-location";
 import uuid from "react-native-uuid";
-const Footer = ({ uid }) => {
+const Footer = ({ uid, onFocus }) => {
   const { userInfo } = useSelector((state) => state.user);
   const [message, setMessage] = useState();
 
@@ -54,14 +48,12 @@ const Footer = ({ uid }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <TouchableOpacity onPress={handleLocation} style={styles.locationIcon}>
         <Ionicons name="location-outline" size={30} color="black" />
       </TouchableOpacity>
       <TextInput
+        onFocus={onFocus}
         value={message}
         onChangeText={(value) => setMessage(value)}
         style={styles.input}
@@ -70,7 +62,7 @@ const Footer = ({ uid }) => {
       <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
         <FontAwesome name="send-o" size={24} color="black" />
       </TouchableOpacity>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 

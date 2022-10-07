@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, KeyboardAvoidingView } from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./ChatDetail.style";
 import Header from "../../../../components/ChatDetailHeader/Header";
@@ -13,6 +13,7 @@ const ChatDetail = ({ route }) => {
   const { uid, userName, profilPhoto } = route.params;
   const { userInfo } = useSelector((state) => state.user);
   const [data, setData] = useState([]);
+  const [enable, setEnable] = useState(false);
 
   useEffect(() => {
     getCollection();
@@ -49,7 +50,11 @@ const ChatDetail = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      enabled={enable}
+      style={styles.container}
+    >
       <View>
         <Header profilPhoto={profilPhoto} userName={userName} />
       </View>
@@ -113,11 +118,11 @@ const ChatDetail = ({ route }) => {
             )}
           />
         </View>
-        <View style={{ bottom: 0, flex: 1 }}>
-          <Footer uid={uid} />
+        <View style={{ bottom: 0, flex: 1, position: "absolute" }}>
+          <Footer onFocus={() => setEnable(true)} uid={uid} />
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

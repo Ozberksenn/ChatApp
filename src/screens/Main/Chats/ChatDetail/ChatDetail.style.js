@@ -8,8 +8,8 @@ export default StyleSheet.create({
   },
   content: {
     backgroundColor: "#6d5f9a",
-    flex: 0.95,
-    borderRadius: 50,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
   },
   receiver: {
     flexDirection: "row",
