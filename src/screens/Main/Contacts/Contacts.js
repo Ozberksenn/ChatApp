@@ -14,7 +14,7 @@ const Contacts = () => {
   }, []);
 
   const getCollection = async () => {
-    //user collectionda ki userları listeletiyoruz. Daha sonra flat list kullanarak chats sayfamızda gösteriyoruz.
+    //user collectionda ki userları listeletiyoruz. Daha sonra flat list kullanarak Contact sayfamızda gösteriyoruz.
     const q = query(
       collection(firestore, "users"),
       where("uid", "!=", userInfo.uid)

@@ -41,14 +41,6 @@ const ChatDetail = ({ route }) => {
     );
   };
 
-  const msg = (item) => {
-    if (typeof item.content === string) {
-      return item;
-    } else {
-      return null;
-    }
-  };
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}

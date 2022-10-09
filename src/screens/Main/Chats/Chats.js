@@ -17,7 +17,7 @@ import {
   collection,
   doc,
   onSnapshot,
-  getDoc,
+  orderBy,
   query,
   updateDoc,
   where,
@@ -50,7 +50,7 @@ const Chats = () => {
         const currentTime = Date.now();
         const time = doc.data().stories[0].date;
         if (currentTime - time <= 86400000) {
-          //24 saat içinde story atmış olan kullanıcıları göstermesini istedik.
+          //24 saat içinde story atmış olan kullanıcıları göstermesini istedim.
           story.push(doc.data());
         }
       });
@@ -96,7 +96,7 @@ const Chats = () => {
   }, []);
 
   const getMessage = () => {
-    const q = collection(firestore, "messages");
+    const q = query(collection(firestore, "messages"), orderBy("date", "asc"));
     onSnapshot(q, (snapshot) => {
       const messages = [];
       snapshot.docChanges().forEach((change) => {
@@ -116,12 +116,29 @@ const Chats = () => {
         }
       }
     });
-    const uniqueUserList = Array.from(new Set(userListId));
-    console.log("asd", uniqueUserList);
-    uniqueUserList.map(async (e) => {
-      const q = doc(firestore, "users", e);
-      await getDoc(q).then((res) => {
-        setData((prevData) => [...prevData, res.data()]);
+    const uniqueUserList = userListId.filter(
+      (it, i, ar) => ar.indexOf(it) === i
+    ); // bize gelen uid leri uniq yaptım.
+    const q = collection(firestore, "users");
+    onSnapshot(q, (snapshot) => {
+      snapshot.forEach((e) => {
+        uniqueUserList.map((item) => {
+          if (item === e.data().uid) {
+            if (data.length > 0) {
+              let isUserExist = false;
+              data.map((item) => {
+                if (item.uid === e.data().uid) {
+                  isUserExist = true;
+                }
+              });
+              if (!isUserExist) {
+                setData((prevData) => [...prevData, e.data()]);
+              }
+            } else {
+              setData((prevData) => [...prevData, e.data()]);
+            }
+          }
+        });
       });
     });
   }, [messages]);
