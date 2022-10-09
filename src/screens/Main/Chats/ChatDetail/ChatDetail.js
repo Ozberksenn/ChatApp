@@ -24,7 +24,7 @@ const ChatDetail = ({ route }) => {
       query(
         collection(firestore, "messages"),
         orderBy("date", "asc")
-        // tarihe göres sıraladım..
+        // sort by date
       ),
       (snapshot) => {
         snapshot.docChanges().forEach((item) => {
@@ -60,7 +60,7 @@ const ChatDetail = ({ route }) => {
                 {item.receiver_id === userInfo.uid ? (
                   item.type === "text" ? (
                     <View key={item.id} style={styles.receiver}>
-                      <Text style={{ color: "#fff" }}>{msg(item)}</Text>
+                      <Text style={{ color: "#fff" }}>{item.content}</Text>
                       <Text style={[styles.date, { color: "#efa985" }]}>
                         {moment.utc(item.date).format("HH:mm")}
                       </Text>

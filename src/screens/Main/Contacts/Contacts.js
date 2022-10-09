@@ -14,12 +14,11 @@ const Contacts = () => {
   }, []);
 
   const getCollection = async () => {
-    //user collectionda ki userları listeletiyoruz. Daha sonra flat list kullanarak Contact sayfamızda gösteriyoruz.
+    //We list the users in the user collection. We then display it on our Contact page using a flatlist.
     const q = query(
       collection(firestore, "users"),
-      where("uid", "!=", userInfo.uid)
+      where("uid", "!=", userInfo.uid) // The logged in user is not listed.
     );
-    // where sorgusu yaparak giriş yapılan kullanıcı listelendirilmez.
 
     await getDocs(q).then((e) => {
       setData(e.docs.map((item) => item.data()));

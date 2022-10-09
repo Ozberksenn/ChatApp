@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 const Header = ({ userName, profilPhoto }) => {
   const navigation = useNavigation();
 
-  // mesajlaşma ekranında bulunacak olan header.
+  // header that will be found on the messaging screen.
   return (
     <SafeAreaView style={styles.header}>
       <View style={{ flexDirection: "row" }}>

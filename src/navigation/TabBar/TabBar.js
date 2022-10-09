@@ -18,7 +18,7 @@ const TabBar = () => {
   }, []);
 
   const getLocal = async () => {
-    // local datadan verileri çektik ve userSlice'a yazdırdık. Çünkü kullanıcı otomatik giriş yaptığında verilerin reduxta tutulması gerekiyor.
+    // We pulled the data from local data and printed it to userSlice. Because when the user logs in automatically, the data needs to be kept in redux.
     const value = await AsyncStorage.getItem("user");
     const local = value ? JSON.parse(value) : null;
     dispatch(signUp(local));

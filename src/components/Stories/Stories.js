@@ -25,7 +25,7 @@ const Stories = ({ data }) => {
     setModalVisible(false);
   };
 
-  // Story kısmında her bimr kişiye tıkladığımızda görseli göstereceğimiz bir modal açıyoruz.
+  // When i click on each person in the Story section, i open a modal that will show the image.
   return (
     <View>
       <Modal

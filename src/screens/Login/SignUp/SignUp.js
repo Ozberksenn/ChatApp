@@ -23,7 +23,7 @@ const SignUp = () => {
       if (password === passwordAgain) {
         createUserWithEmailAndPassword(auth, mail, password)
           .then(async (res) => {
-            // bir collection oluşturduk ve inputtan aldığımız değerleri firestore ya kaydettik.
+            // We created a collection and saved the values ​​we received from the input to the firestore.
             await setDoc(doc(firestore, "users", res.user.uid), {
               mail: mail,
               password: password,
@@ -32,7 +32,7 @@ const SignUp = () => {
               bio: "Hey There I'm Using ChatApp",
               profilPhoto:
                 "https://firebasestorage.googleapis.com/v0/b/chat-11105.appspot.com/o/user.png?alt=media&token=93f8ebfa-89ce-4975-95c5-4cad65655d97",
-              // default olarak bir profil fotoğrafı ekliyorum. Kullanıcı daha sonra  ayarlardan onu değiştirebilir.
+              // I add a profile photo by default. The user can then change it from the settings.
             });
             navigation.navigate("SignIn");
           })

@@ -39,7 +39,7 @@ const Chats = () => {
   }, []);
 
   const getCollection = async () => {
-    // yalnızca story atan kullanıcıları gösteriyoruz.
+    // We only show users who posted stories.
     const response = query(
       collection(firestore, "users"),
       where("stories", "!=", null)
@@ -50,7 +50,7 @@ const Chats = () => {
         const currentTime = Date.now();
         const time = doc.data().stories[0].date;
         if (currentTime - time <= 86400000) {
-          //24 saat içinde story atmış olan kullanıcıları göstermesini istedim.
+          //I wanted it to show users who have posted stories within 24 hours.
           story.push(doc.data());
         }
       });
@@ -58,7 +58,7 @@ const Chats = () => {
     });
   };
   const handlStoriesIcon = async () => {
-    //story atan kullanıcılar listelendirildi ve modal içinde kullanıcının paylaştığı story gösterildi.
+    //The users who posted a story were listed and the story shared by the user in the modal was shown.
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -118,7 +118,7 @@ const Chats = () => {
     });
     const uniqueUserList = userListId.filter(
       (it, i, ar) => ar.indexOf(it) === i
-    ); // bize gelen uid leri uniq yaptım.
+    ); // uiq unique
     const q = collection(firestore, "users");
     onSnapshot(q, (snapshot) => {
       snapshot.forEach((e) => {

@@ -20,11 +20,11 @@ const Settings = () => {
   const { userInfo } = useSelector((state) => state.user);
 
   const handleTheme = () => {
-    // tema değiştiriliyor.
+    // Theme changed
     dispatch(toggleTheme());
   };
   const handleLogOut = async () => {
-    // async storage ve redux store üzerinde ki bilgiler sıfırlandı.
+    // The information on async storage and redux store has been reset.
     dispatch(updateUser({}));
     await AsyncStorage.removeItem("user");
   };

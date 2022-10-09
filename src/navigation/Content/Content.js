@@ -5,7 +5,7 @@ import TabBar from "../TabBar/TabBar";
 import UpdateAccount from "../../screens/Main/Settings/UpdateAccount/UpdateAccount";
 import ChatDetail from "../../screens/Main/Chats/ChatDetail/ChatDetail";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +20,6 @@ const Content = () => {
   const getLocal = async () => {
     const value = await AsyncStorage.getItem("user");
     const local = value ? JSON.parse(value) : null;
-    console.log("local Data", local);
     setLocalData(local);
   };
 

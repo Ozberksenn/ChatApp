@@ -7,7 +7,7 @@ import { firestore } from "../../../config";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import moment from "moment";
 const ChatCard = ({ data, isChatView }) => {
-  // kişileri listeleteceğimiz kart yapısı.
+  // The card structure where we will list the contacts.
   const { activeTheme } = useSelector((state) => state.theme);
   const { userInfo } = useSelector((state) => state.user);
   const [messages, setMessages] = useState([]);
@@ -21,7 +21,7 @@ const ChatCard = ({ data, isChatView }) => {
       query(
         collection(firestore, "messages"),
         orderBy("date", "asc")
-        // tarihe göres sıraladım..
+        // sort by date
       ),
       (snapshot) => {
         snapshot.docChanges().forEach((item) => {

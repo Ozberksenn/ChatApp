@@ -8,19 +8,15 @@ export const UserSlice = createSlice({
   reducers: {
     signUp: (state, action) => {
       state.userInfo = action.payload;
-      console.log("signUp : ", action.payload);
     },
     signIn: (state, action) => {
       state.userInfo = action.payload;
-      console.log("signIn : ", action.payload);
     },
     updateUser: (state, action) => {
       state.userInfo = action.payload;
-      console.log("updateUser : ", action.payload);
     },
     updatePhoto: (state, action) => {
       state.userInfo = action.payload;
-      console.log("updatPhoto : ", action.payload);
     },
   },
 });

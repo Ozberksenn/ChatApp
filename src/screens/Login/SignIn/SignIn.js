@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import { doc, getDoc } from "firebase/firestore";
 
+// Login Page
 const SignIn = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const SignIn = () => {
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
   const handleSignIn = () => {
-    // firebase üzerinden tüm data çekiliyor. Çekilen data async storage ve redux store a  yazıldı.
+    // All data is pulled from firebase. The captured data is written to async storage and redux store.
     if (mail && password) {
       signInWithEmailAndPassword(auth, mail, password)
         .then(async (res) => {
@@ -58,7 +59,7 @@ const SignIn = () => {
             onChangeText={(value) => setMail(value)}
             iconName="mail"
             inputName="Email"
-            placeholder="please enter email"
+            placeholder="Please Enter Email"
           />
           <View style={styles.line}></View>
           <Input
@@ -66,7 +67,7 @@ const SignIn = () => {
             securityPassword
             iconName="key"
             inputName="Password"
-            placeholder="please enter password"
+            placeholder="Please Enter Password"
           />
           <Button onPress={handleSignIn} btnName="Sign In" />
           <Button

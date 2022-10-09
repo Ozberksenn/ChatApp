@@ -21,7 +21,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 const UpdateAccount = () => {
-  //profil bilgileri bu sayfadan güncellenecek.
+  //Profile information will be updated from this page.
   const navigation = useNavigation();
   const { userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const UpdateAccount = () => {
       quality: 1,
     });
     if (!result.cancelled) {
-      // kütüphaneden aldığımız photo url i base64 e çeviriyoruz.
+      // We convert the photo url from the library to base64.
       const base64 = await UploadImageAsync(result.uri);
       setImage(base64);
       editImage(base64);
@@ -58,7 +58,6 @@ const UpdateAccount = () => {
     });
   };
   const handleUpdate = async () => {
-    //userName , mail ve password bilgilerini her yerden güncelledim.
     if (userName && mail && password) {
       updateEmail(auth.currentUser, mail).then(async () => {
         updatePassword(auth.currentUser, password).then(async () => {
